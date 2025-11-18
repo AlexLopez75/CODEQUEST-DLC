@@ -48,27 +48,27 @@ public class Program
         const string DiceRoll6 = "   ________\r\n  /       /|   \r\n /_______/ |\r\n | o   o | |\r\n | o   o | /\r\n | o   o |/ \r\n '-------'\r\n";
         const string DiceResult = "You rolled a {0}!";
         const string MonsterDamage = "The monster takes {0} damage.";
+        const string MonsterDefeat = "You have defeated the monster, you level increasses to level {0}.";
+        const string MaxLevel = "You have achieved max level.";
         const int MinMonster = 0;
         const int MaxMonster = 8;
         const int MinDamage = 1;
         const int MaxDamage = 7;
+
         //Menu:
         int op = 0;
         bool setWizard = false;
 
         //Chapter 1:
         int day, hour, power, totalHour = 0, totalPower = 0, level = 1;
-        string wizardName = "none", title = "none", space = " ";
+        string wizardName = "none",  title = "none", space = " ";
         bool validInput, badName = false;
-<<<<<<< HEAD
-=======
 
         //Chapter 2:
         int[] arrayHp = { 3, 5, 10, 11, 18, 15, 20, 50 };
         string[] arrayMonsters = { "Wandering Skeleton 💀", "Forest Goblin 👹", "Green Slime 🟢", "Ember Wolf 🐺", "Giant Spider 🕷️", "Iron Golem 🤖", "Lost Necromancer 🧝‍", "Ancient Dragon 🐉" };
         string[] arrayDice = { DiceRoll1, DiceRoll2, DiceRoll3, DiceRoll4, DiceRoll5, DiceRoll6 };
         int health;
->>>>>>> d61f2e3 (feat:add dice fighting system, closes #5)
 
         Random rnd = new Random();
 
@@ -116,6 +116,7 @@ public class Program
                         {
                             Console.Write(MsgInputName);
                             wizardName = Console.ReadLine();
+                            wizardName = char.ToUpper(wizardName[0]) + wizardName.Substring(1);
                             if (badName = wizardName.Contains(space))
                             {
                                 Console.WriteLine(InputNameError);
@@ -167,24 +168,34 @@ public class Program
                         setWizard = true;
                         break;
                     case 2:
-                        int monster = rnd.Next(MinMonster, MaxMonster);
-                        Console.WriteLine(MonsterEncounter, arrayMonsters[monster]);
-                        health = arrayHp[monster];
-
-                        do
+                        switch (level)
                         {
-                            Console.WriteLine(MonsterHp, arrayMonsters[monster], health);
-                            int damage = rnd.Next(MinDamage, MaxDamage);
-                            Console.WriteLine(arrayDice[damage -1]);
-                            health = health - damage;
-                            Console.WriteLine(DiceResult, (damage));
-                            Console.WriteLine(MonsterDamage, damage);
-                        } while (health > 0);
+                            case < 5:
+                                int monster = rnd.Next(MinMonster, MaxMonster);
+                                Console.WriteLine(MonsterEncounter, arrayMonsters[monster]);
+                                health = arrayHp[monster];
+
+                                do
+                                {
+                                    Console.WriteLine(MonsterHp, arrayMonsters[monster], health);
+                                    int damage = rnd.Next(MinDamage, MaxDamage);
+                                    Console.WriteLine(arrayDice[damage -1]);
+                                    health = health - damage;
+                                    Console.WriteLine(DiceResult, (damage));
+                                    Console.WriteLine(MonsterDamage, damage);
+                                } while (health > 0);
+                                
+                                level = level + 1;
+                                Console.WriteLine(MonsterDefeat, level);
+                                break;
+                            case >= 5:
+                                Console.WriteLine(MaxLevel);
+                                break;
+                        }  
                         break;
                 }
             }
         } while (op != 0);
-
     }
 }
 
