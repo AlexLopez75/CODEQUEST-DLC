@@ -90,6 +90,7 @@ public class Program
                         {
                             Console.Write(MsgInputName);
                             wizardName = Console.ReadLine();
+                            wizardName = char.ToUpper(wizardName[0]) + wizardName.Substring(1);
                             if (badName = wizardName.Contains(space))
                             {
                                 Console.WriteLine(InputNameError);
