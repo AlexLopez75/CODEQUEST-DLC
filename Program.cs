@@ -44,7 +44,6 @@ public class Program
         string wizardName = "none", title = "none", space = " ";
         bool validInput, badName = false;
 
-
         Random rnd = new Random();
 
         do
