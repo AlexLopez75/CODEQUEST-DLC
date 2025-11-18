@@ -170,6 +170,7 @@ public class Program
                         int monster = rnd.Next(MinMonster, MaxMonster);
                         Console.WriteLine(MonsterEncounter, arrayMonsters[monster]);
                         health = arrayHp[monster];
+
                         do
                         {
                             Console.WriteLine(MonsterHp, arrayMonsters[monster], health);
