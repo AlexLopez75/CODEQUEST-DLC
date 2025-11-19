@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data.Common;
 public class Program
 {
     public static void Main()
@@ -55,6 +56,15 @@ public class Program
         const int MinDamage = 1;
         const int MaxDamage = 7;
 
+        //Chapter 3:
+        const string AttemptsLeft = "You have {0} attempts left.";
+        const string MineMap = "Here's the map of the mine.";
+        const string Treasure = "🪙";
+        const string NotDigged = "➖";
+        const int MinChance = 0;
+        const int MaxChance = 9;
+        const int TreasureChance = 10;
+
         //Menu:
         int op = 0;
         bool setWizard = false;
@@ -69,6 +79,11 @@ public class Program
         string[] arrayMonsters = { "Wandering Skeleton 💀", "Forest Goblin 👹", "Green Slime 🟢", "Ember Wolf 🐺", "Giant Spider 🕷️", "Iron Golem 🤖", "Lost Necromancer 🧝‍", "Ancient Dragon 🐉" };
         string[] arrayDice = { DiceRoll1, DiceRoll2, DiceRoll3, DiceRoll4, DiceRoll5, DiceRoll6 };
         int health;
+
+        //Chapter 3:
+        string[,] matrixTreasure = new string[5, 5];
+        string[,] matrixMap = new string[5, 5];
+        int attempts = 5;
 
         Random rnd = new Random();
 
@@ -179,19 +194,45 @@ public class Program
                                 {
                                     Console.WriteLine(MonsterHp, arrayMonsters[monster], health);
                                     int damage = rnd.Next(MinDamage, MaxDamage);
-                                    Console.WriteLine(arrayDice[damage -1]);
+                                    Console.WriteLine(arrayDice[damage - 1]);
                                     health = health - damage;
                                     Console.WriteLine(DiceResult, (damage));
                                     Console.WriteLine(MonsterDamage, damage);
                                 } while (health > 0);
-                                
+
                                 level = level + 1;
                                 Console.WriteLine(MonsterDefeat, level);
                                 break;
                             case >= 5:
                                 Console.WriteLine(MaxLevel);
                                 break;
-                        }  
+                        }
+                        break;
+                    case 3:
+                        for (int i = 0; i < matrixTreasure.GetLength(0); i++)
+                        {
+                            for (int j = 0; j < matrixTreasure.GetLength(1); j++)
+                            {
+                                int gold = rnd.Next(MinChance, MaxChance);
+                                if (gold == TreasureChance)
+                                {
+                                    matrixTreasure[i, j] = Treasure;
+                                }
+                            }
+                        }
+
+                        Console.WriteLine(AttemptsLeft, attempts);
+                        Console.WriteLine(MineMap);
+
+                        for (int i = 0; i < matrixMap.GetLength(0); i++)
+                        {
+                            for (int j = 0; j < matrixMap.GetLength(1); j++)
+                            {
+                                matrixMap[i, j] = NotDigged;
+                                Console.Write($"{matrixMap[i, j]}");
+                            }
+                            Console.WriteLine();
+                        }
                         break;
                 }
             }
