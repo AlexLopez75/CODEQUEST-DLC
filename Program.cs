@@ -61,9 +61,19 @@ public class Program
         const string MineMap = "Here's the map of the mine.";
         const string Treasure = "🪙";
         const string NotDigged = "➖";
-        const int MinChance = 0;
-        const int MaxChance = 9;
-        const int TreasureChance = 10;
+        const string Nothing = "❌";
+        const string InputRow = "Input a row (0-4): ";
+        const string InputColumn = "Input a column (0-4): ";
+        const string InputError = "Input a number between 0 and 4";
+        const string MsgDigIn = "Digging in coordinates ({0},{1})...";
+        const string AlreadyDigged = "You have already digged this coordenate";
+        const string MsgEmpty = "There's nothing in here.";
+        const string MsgFound = "You struck a gold! Bits found: ";
+        const string TotalBitsFound = "You have found a total of {0} bits in this mine";
+        const int MinChance = 1;
+        const int MaxChance = 4;
+        const int MinBits = 5;
+        const int MaxBits = 51;
 
         //Menu:
         int op = 0;
@@ -72,7 +82,7 @@ public class Program
         //Chapter 1:
         int day, hour, power, totalHour = 0, totalPower = 0, level = 1;
         string wizardName = "none",  title = "none", space = " ";
-        bool validInput, badName = false;
+        bool validInput = true, badName = false;
 
         //Chapter 2:
         int[] arrayHp = { 3, 5, 10, 11, 18, 15, 20, 50 };
@@ -83,7 +93,7 @@ public class Program
         //Chapter 3:
         string[,] matrixTreasure = new string[5, 5];
         string[,] matrixMap = new string[5, 5];
-        int attempts = 5;
+        int attempts = 5, row, column, bits = 0, totalBits = 0;
 
         Random rnd = new Random();
 
@@ -103,8 +113,6 @@ public class Program
             Console.WriteLine(MenuOption7);
             Console.WriteLine(MenuOptionExit);
             Console.Write(MenuPrompt);
-
-            validInput = true;
 
             try
             {
@@ -212,18 +220,12 @@ public class Program
                         for (int i = 0; i < matrixTreasure.GetLength(0); i++)
                         {
                             for (int j = 0; j < matrixTreasure.GetLength(1); j++)
-                            {
-                                int gold = rnd.Next(MinChance, MaxChance);
-                                if (gold == TreasureChance)
-                                {
-                                    matrixTreasure[i, j] = Treasure;
-                                }
+                            { 
+                                matrixTreasure[i, j] = rnd.Next(MinChance, MaxChance) > 2 ? $"{Treasure}" : $"{Nothing}";
                             }
                         }
 
-                        Console.WriteLine(AttemptsLeft, attempts);
                         Console.WriteLine(MineMap);
-
                         for (int i = 0; i < matrixMap.GetLength(0); i++)
                         {
                             for (int j = 0; j < matrixMap.GetLength(1); j++)
@@ -233,6 +235,71 @@ public class Program
                             }
                             Console.WriteLine();
                         }
+
+                        for (attempts = 5; attempts > 0; attempts--)
+                        {
+                            validInput = false;
+                            Console.WriteLine(AttemptsLeft, attempts);
+                            Console.WriteLine(InputRow);
+                            do
+                            {
+                                validInput = Int32.TryParse(Console.ReadLine(), out row);
+                                if (row >= 0 && row <= 4 && validInput)
+                                {
+                                    validInput = false;
+                                    Console.WriteLine(InputColumn);
+                                    do
+                                    {
+                                        validInput = Int32.TryParse(Console.ReadLine(), out column);
+
+                                        if (column >= 0 && column <= 4 && validInput)
+                                        {
+                                            if (matrixMap[row, column] != Treasure && matrixMap[row, column] != Nothing)
+                                            {
+                                                Console.WriteLine(MsgDigIn, row, column);
+                                                if (matrixTreasure[row, column].Equals(Treasure))
+                                                {
+                                                    matrixMap[row, column] = Treasure;
+                                                    bits = rnd.Next(MinBits, MaxBits);
+                                                    totalBits = totalBits + bits;
+                                                }
+                                                else
+                                                {
+                                                    matrixMap[row, column] = Nothing;
+                                                }
+                                                Console.WriteLine(matrixMap[row, column] == Treasure ? $"{MsgFound}{bits}" : $"{MsgEmpty}");
+                                            }
+                                            else
+                                            {
+                                                Console.WriteLine(AlreadyDigged);
+                                                attempts++;
+                                            }
+                                        }
+                                        else
+                                        {
+                                            Console.WriteLine(InputError);
+                                            validInput = false;
+                                        }
+                                    } while (column < 0 || column >= 5 && !validInput);
+                                }
+                                else
+                                {
+                                    Console.WriteLine(InputError);
+                                    validInput = false;
+                                }
+                            } while (row < 0 || row >= 5 && !validInput);
+                            
+                            Console.WriteLine(MineMap);
+                            for (int i = 0; i < matrixMap.GetLength(0); i++)
+                            {
+                                for (int j = 0; j < matrixMap.GetLength(1); j++)
+                                {
+                                    Console.Write($"{matrixMap[i, j]}");
+                                }
+                                Console.WriteLine();
+                            }
+                        }
+                        Console.WriteLine(TotalBitsFound, totalBits);
                         break;
                 }
             }
