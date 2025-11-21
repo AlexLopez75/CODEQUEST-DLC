@@ -31,10 +31,10 @@ public class Program
         const string LevelAdvanced = "Wow! You can cast dragons witout burning the lab!";
         const string LevelMaster = "You have achieved the Master of Arcanes rank!";
         const string TitleDisaster = "Raoden the Elantrin";
-        const string TitleNoob = "Level: Zyn the bugged";
-        const string TitleNovice = "Level: Arka Nullpointer";
-        const string TitleAdvanced = "Level: Elarion of the Embers";
-        const string TitleMaster = "Level: ITB-Wizard the Grey";
+        const string TitleNoob = "Zyn the bugged";
+        const string TitleNovice = "Arka Nullpointer";
+        const string TitleAdvanced = "Elarion of the Embers";
+        const string TitleMaster = "ITB-Wizard the Grey";
         const string DayTraining = "Day {0} : {1} meditated for {2} hours and gained {3} power points.";
         const string TotalTraining = "{0} has meditated for a total of {1} hours and gained {2} power points";
 
@@ -57,8 +57,8 @@ public class Program
         const int MaxDamage = 7;
 
         //Chapter 3:
-        const string AttemptsLeft = "You have {0} attempts left.";
         const string MineMap = "Here's the map of the mine.";
+        const string XCoordinates = "     0 1 2 3 4\n     - - - - -";
         const string Treasure = "🪙";
         const string NotDigged = "➖";
         const string Nothing = "❌";
@@ -66,6 +66,7 @@ public class Program
         const string InputColumn = "Input a column (0-4): ";
         const string InputError = "Input a number between 0 and 4";
         const string MsgDigIn = "Digging in coordinates ({0},{1})...";
+        const string AttemptsLeft = "You have {0} attempts left.";
         const string AlreadyDigged = "You have already digged this coordenate";
         const string MsgEmpty = "There's nothing in here.";
         const string MsgFound = "You struck a gold! Bits found: ";
@@ -91,6 +92,7 @@ public class Program
         int health;
 
         //Chapter 3:
+        string[] yCoordinates = { "0 - ", "1 - ", "2 - ", "3 - ", "4 - " };
         string[,] matrixTreasure = new string[5, 5];
         string[,] matrixMap = new string[5, 5];
         int attempts = 5, row, column, bits = 0, totalBits = 0;
@@ -165,27 +167,27 @@ public class Program
                             case >= 40:
                                 Console.WriteLine(LevelMaster);
                                 Console.WriteLine(TitleMaster);
-                                title = "ITB-Wizard the Grey";
+                                title = TitleMaster;
                                 break;
                             case >= 35:
                                 Console.WriteLine(LevelAdvanced);
                                 Console.WriteLine(TitleAdvanced);
-                                title = "Elarion of the Embers";
+                                title = TitleAdvanced;
                                 break;
                             case >= 30:
                                 Console.WriteLine(LevelNovice);
                                 Console.WriteLine(TitleNovice);
-                                title = "Arka Nullpointer";
+                                title = TitleNovice;
                                 break;
                             case >= 20:
                                 Console.WriteLine(LevelNoob);
                                 Console.WriteLine(TitleNoob);
-                                title = "Zyn the Bugged";
+                                title = TitleNoob;
                                 break;
                             case < 20:
                                 Console.WriteLine(LevelDisaster);
                                 Console.WriteLine(TitleDisaster);
-                                title = "Raoden the Elantrin";
+                                title = TitleDisaster;
                                 break;
                         }
                         setWizard = true;
@@ -206,6 +208,8 @@ public class Program
                                     health = health - damage;
                                     Console.WriteLine(DiceResult, (damage));
                                     Console.WriteLine(MonsterDamage, damage);
+                                    Console.WriteLine(PressEnter);
+                                    Console.WriteLine();
                                 } while (health > 0);
 
                                 level = level + 1;
@@ -226,8 +230,10 @@ public class Program
                         }
 
                         Console.WriteLine(MineMap);
+                        Console.WriteLine(XCoordinates);
                         for (int i = 0; i < matrixMap.GetLength(0); i++)
                         {
+                            Console.Write($"{yCoordinates[i]}");
                             for (int j = 0; j < matrixMap.GetLength(1); j++)
                             {
                                 matrixMap[i, j] = NotDigged;
@@ -290,8 +296,10 @@ public class Program
                             } while (row < 0 || row >= 5 && !validInput);
                             
                             Console.WriteLine(MineMap);
+                            Console.WriteLine(XCoordinates);
                             for (int i = 0; i < matrixMap.GetLength(0); i++)
                             {
+                                Console.Write($"{yCoordinates[i]}");
                                 for (int j = 0; j < matrixMap.GetLength(1); j++)
                                 {
                                     Console.Write($"{matrixMap[i, j]}");
