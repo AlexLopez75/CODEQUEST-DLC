@@ -76,6 +76,9 @@ public class Program
         const int MinBits = 5;
         const int MaxBits = 51;
 
+        //Chapter 4:
+        const string InventoryEmpty = "The inventory is empty";
+
         //Menu:
         int op = 0;
         bool setWizard = false;
@@ -96,6 +99,9 @@ public class Program
         string[,] matrixTreasure = new string[5, 5];
         string[,] matrixMap = new string[5, 5];
         int attempts = 5, row, column, bits = 0, totalBits = 0;
+
+        //Chapter 4:
+        string[] inventorySlots = { null };
 
         Random rnd = new Random();
 
@@ -133,7 +139,6 @@ public class Program
 
             if (validInput)
             {
-                Console.WriteLine(op);
                 switch (op)
                 {
                     case 1:
@@ -209,7 +214,7 @@ public class Program
                                     Console.WriteLine(DiceResult, (damage));
                                     Console.WriteLine(MonsterDamage, damage);
                                     Console.WriteLine(PressEnter);
-                                    Console.WriteLine();
+                                    Console.ReadLine();
                                 } while (health > 0);
 
                                 level = level + 1;
@@ -308,6 +313,19 @@ public class Program
                             }
                         }
                         Console.WriteLine(TotalBitsFound, totalBits);
+                        break;
+                    case 4:
+                        if (inventorySlots[0] != null)
+                        {
+                            for (int i = 0; i < inventorySlots.Length; i++)
+                            {
+                                Console.WriteLine($"{inventorySlots[i]}");
+                            }
+                        }
+                        else
+                        {
+                            Console.WriteLine(InventoryEmpty);
+                        }
                         break;
                 }
             }
