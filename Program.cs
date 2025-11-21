@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data.Common;
+using System.Diagnostics.Metrics;
 public class Program
 {
     public static void Main()
@@ -79,6 +80,19 @@ public class Program
         //Chapter 4:
         const string InventoryEmpty = "The inventory is empty";
 
+        //Chapter 5:
+        const string EnterShop = "Welcome to the shop, kid. What will you buy?";
+        const string ShopNames = "Item\t\t\tPrice";
+        const string SelectItem = "Input (1-5) to select an item to purchase or 0 to exit the shop";
+        const string InputErrorItem = "Input a number from 1 and 7";
+        const string SuficientBits = "Thank you for your purchase, kid.";
+        const string BuyMessage = "You have bought a {0}.";
+        const string NoTenoughBits = "It seems you dont have enough bits. Come when you have more, kid.";
+        const string LeaveShop = "Come again, kid.";
+        const string AlreadyPurchased = "You have already purchased this item";
+        const int MinItem = 1;
+        const int MaxItem = 6;
+
         //Menu:
         int op = 0;
         bool setWizard = false;
@@ -102,6 +116,12 @@ public class Program
 
         //Chapter 4:
         string[] inventorySlots = { null };
+
+        //Chapter 5:
+        string[] arrayItems = { "Iron Dagger 🗡️", "Healing Potion ⚗️", "Ancient Key 🗝️", "Crossbow 🏹", "Metal Shield 🛡️" };
+        int[] arrayPrice = { 30, 10, 50, 40, 20 };
+        string[] tempInventory = new string[5];
+        int shopSelect;
 
         Random rnd = new Random();
 
@@ -144,6 +164,7 @@ public class Program
                     case 1:
                         do
                         {
+                            badName = false;
                             Console.Write(MsgInputName);
                             wizardName = Console.ReadLine();
                             wizardName = char.ToUpper(wizardName[0]) + wizardName.Substring(1);
@@ -326,6 +347,37 @@ public class Program
                         {
                             Console.WriteLine(InventoryEmpty);
                         }
+                        break;
+                    case 5:
+                        validInput = false;
+                        Console.WriteLine(EnterShop);
+                        do
+                        {
+                            Console.WriteLine(ShopNames);
+                            for (int i = 0; i < arrayItems.Length; i++)
+                            {
+                                Console.Write($"{arrayItems[i]}     \t{arrayPrice[i]}\n");
+                            }
+                            Console.WriteLine(SelectItem);
+                            try
+                            {
+                                validInput = Int32.TryParse(Console.ReadLine(), out shopSelect);
+                                if (shopSelect >= MinItem && shopSelect < MaxItem && validInput)
+                                {
+
+                                }
+                            }
+                            catch (FormatException)
+                            {
+                                Console.WriteLine(InputErrorItem);
+                            }
+                            catch (Exception)
+                            {
+                                Console.WriteLine(InputErrorItem);
+                            }
+                            break;
+                        } while (shopSelect != 0 && !validInput);
+                        Console.WriteLine(LeaveShop);
                         break;
                 }
             }
