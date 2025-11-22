@@ -84,12 +84,12 @@ public class Program
         const string EnterShop = "Welcome to the shop, kid. What will you buy?";
         const string ShopNames = "Item\t\t\tPrice";
         const string SelectItem = "Input (1-5) to select an item to purchase or 0 to exit the shop";
+        const string YourBits = "You have {0} bits in your possesion";
         const string InputErrorItem = "Input a number from 1 and 7";
         const string SuficientBits = "Thank you for your purchase, kid.";
         const string BuyMessage = "You have bought a {0}.";
-        const string NoTenoughBits = "It seems you dont have enough bits. Come when you have more, kid.";
+        const string NotEnoughBits = "It seems you dont have enough bits. Come when you have more, kid.";
         const string LeaveShop = "Come again, kid.";
-        const string AlreadyPurchased = "You have already purchased this item";
         const int MinItem = 1;
         const int MaxItem = 6;
 
@@ -115,13 +115,12 @@ public class Program
         int attempts = 5, row, column, bits = 0, totalBits = 0;
 
         //Chapter 4:
-        string[] inventorySlots = { null };
+        string[] inventorySlots = new string [1];
 
         //Chapter 5:
         string[] arrayItems = { "Iron Dagger 🗡️", "Healing Potion ⚗️", "Ancient Key 🗝️", "Crossbow 🏹", "Metal Shield 🛡️" };
         int[] arrayPrice = { 30, 10, 50, 40, 20 };
-        string[] tempInventory = new string[5];
-        int shopSelect;
+        int shopSelect = 1;
 
         Random rnd = new Random();
 
@@ -312,14 +311,14 @@ public class Program
                                             Console.WriteLine(InputError);
                                             validInput = false;
                                         }
-                                    } while (column < 0 || column >= 5 && !validInput);
+                                    } while (column < 0 || column >= 5 || !validInput);
                                 }
                                 else
                                 {
                                     Console.WriteLine(InputError);
                                     validInput = false;
                                 }
-                            } while (row < 0 || row >= 5 && !validInput);
+                            } while (row < 0 || row >= 5 || !validInput);
                             
                             Console.WriteLine(MineMap);
                             Console.WriteLine(XCoordinates);
@@ -359,12 +358,29 @@ public class Program
                                 Console.Write($"{arrayItems[i]}     \t{arrayPrice[i]}\n");
                             }
                             Console.WriteLine(SelectItem);
+                            Console.WriteLine(YourBits, totalBits);
                             try
                             {
                                 validInput = Int32.TryParse(Console.ReadLine(), out shopSelect);
                                 if (shopSelect >= MinItem && shopSelect < MaxItem && validInput)
                                 {
-
+                                    if (totalBits < arrayPrice[shopSelect - 1])
+                                    {
+                                        Console.WriteLine(NotEnoughBits);
+                                    }
+                                    else
+                                    {
+                                        inventorySlots[inventorySlots.Length - 1] = arrayItems[shopSelect - 1];
+                                        totalBits -= arrayPrice[shopSelect - 1];
+                                        Console.WriteLine(SuficientBits);
+                                        Console.WriteLine(BuyMessage, arrayItems[shopSelect - 1]);
+                                        string[] auxArray = new string[inventorySlots.Length + 1];
+                                        for (int i = 0; i < inventorySlots.Length; i++)
+                                        {
+                                            auxArray[i] = inventorySlots[i];
+                                        }
+                                        inventorySlots = auxArray;
+                                    }
                                 }
                             }
                             catch (FormatException)
@@ -375,8 +391,7 @@ public class Program
                             {
                                 Console.WriteLine(InputErrorItem);
                             }
-                            break;
-                        } while (shopSelect != 0 && !validInput);
+                        } while (shopSelect != 0);
                         Console.WriteLine(LeaveShop);
                         break;
                 }
