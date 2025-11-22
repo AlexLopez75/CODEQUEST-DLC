@@ -83,15 +83,20 @@ public class Program
         //Chapter 5:
         const string EnterShop = "Welcome to the shop, kid. What will you buy?";
         const string ShopNames = "Item\t\t\tPrice";
-        const string SelectItem = "Input (1-5) to select an item to purchase or 0 to exit the shop";
-        const string YourBits = "You have {0} bits in your possesion";
-        const string InputErrorItem = "Input a number from 1 and 7";
+        const string SelectItem = "Input (1-5) to select an item to purchase or 0 to exit the shop.";
+        const string YourBits = "You have {0} bits in your possesion.";
+        const string InputErrorItem = "Input a number from 1 and 7.";
         const string SuficientBits = "Thank you for your purchase, kid.";
         const string BuyMessage = "You have bought a {0}.";
         const string NotEnoughBits = "It seems you dont have enough bits. Come when you have more, kid.";
         const string LeaveShop = "Come again, kid.";
         const int MinItem = 1;
         const int MaxItem = 6;
+
+        //Chapter 6:
+        const string ShowAttacks = "These are the magic spells you posess at level {0}.";
+        const string GetStronger = "Learn new skills by training and leveling up!";
+        const string MaxLevelSkills = "You have learned the master skills. Now go and defeat the final boss!";
 
         //Menu:
         int op = 0;
@@ -122,10 +127,19 @@ public class Program
         int[] arrayPrice = { 30, 10, 50, 40, 20 };
         int shopSelect = 1;
 
+        //Chapter 6:
+        string[][] arrayLevel = new string[5][];
+        arrayLevel[0] = new string[1] { "Magic Spark 💫" };
+        arrayLevel[1] = new string[3] { "Fireball 🔥", "Ice Ray 🥏", "Arcane Shield ⚕️" };
+        arrayLevel[2] = new string[4] { "Meteor ☄️", "Pure Energy Explosion 💥", "Minor Charm 🎭", "Air Strike 🍃" };
+        arrayLevel[3] = new string[2] { "Wave of Light ⚜️", "Storm of Wings 🐦" };
+        arrayLevel[4] = new string[4] { "Cataclysm 🌋", "Portal of Chaos 🌀", "Arcane Blood Pact 🩸", "Elemental Storm ⛈️" };
+
         Random rnd = new Random();
 
         do
         {
+            validInput = true;
             Console.WriteLine(MenuTitle);
             if (setWizard)
             {
@@ -393,6 +407,22 @@ public class Program
                             }
                         } while (shopSelect != 0);
                         Console.WriteLine(LeaveShop);
+                        break;
+                    case 6:
+                        Console.WriteLine(ShowAttacks, level);
+                        for (int i = 0; i < arrayLevel[level - 1].Length; i++)
+                        {
+                            Console.WriteLine($"{arrayLevel[level - 1][i]}");
+                        }
+                        switch (level)
+                        {
+                            case < 5:
+                                Console.WriteLine(GetStronger);
+                                break;
+                            case >= 5:
+                                Console.WriteLine(MaxLevelSkills);
+                                break;
+                        }
                         break;
                 }
             }
