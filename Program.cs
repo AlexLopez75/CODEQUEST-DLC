@@ -26,6 +26,7 @@ public class Program
         const string MsgNameConfirm = "Your wizard's name is: ";
         const string InputNameError = "Input a name without spaces.";
         const string PressEnter = "Press enter to continue";
+        const string Title = "Title: ";
         const string LevelDisaster = "You repeat the 2nd call";
         const string LevelNoob = "You still confuse your wand with a spoon";
         const string LevelNovice = "You are a Magic Breeze Caster";
@@ -37,7 +38,7 @@ public class Program
         const string TitleAdvanced = "Elarion of the Embers";
         const string TitleMaster = "ITB-Wizard the Grey";
         const string DayTraining = "Day {0} : {1} meditated for {2} hours and gained {3} power points.";
-        const string TotalTraining = "{0} has meditated for a total of {1} hours and gained {2} power points";
+        const string TotalTraining = "{0} has meditated for a total of {1} hours and gained {2} power points.";
 
         //Chapter 2
         const string MonsterEncounter = "A wild {0} appears! Rolling dice to determine the outcome of the battle...";
@@ -50,7 +51,7 @@ public class Program
         const string DiceRoll6 = "   ________\r\n  /       /|   \r\n /_______/ |\r\n | o   o | |\r\n | o   o | /\r\n | o   o |/ \r\n '-------'\r\n";
         const string DiceResult = "You rolled a {0}!";
         const string MonsterDamage = "The monster takes {0} damage.";
-        const string MonsterDefeat = "You have defeated the monster, you level increasses to level {0}.";
+        const string MonsterDefeat = "You have defeated the monster, your level increasses to level {0}.";
         const string MaxLevel = "You have achieved max level.";
         const int MinMonster = 0;
         const int MaxMonster = 8;
@@ -98,6 +99,16 @@ public class Program
         const string GetStronger = "Learn new skills by training and leveling up!";
         const string MaxLevelSkills = "You have learned the master skills. Now go and defeat the final boss!";
 
+        //Chapter 7:
+        const string FoundScrolls = "You have found the ancient scrolls, but they are encrypted.";
+        const string SelectScroll = "Select a method of decoding:";
+        const string DecodeMethods = "1. Decipher spell (remove spaces).\n2. Count magical runes (vowels).\n3. Extract secret code (numbers).";
+        const string InputErrorScrolls = "Input a number between 1 and 3.";
+        const string DecodedSpell = "Decoded spell: {0}";
+        const string MagicalRunes = "{0} magical runes (vowels) found.";
+        const string SecretCode = "The secret code is: ";
+        const string AllScrollsDecoded = "Congratulations, you have succesfully decoded all the ancient scrolls. Now you know the secrets of the ancients!";
+
         //Menu:
         int op = 0;
         bool setWizard = false;
@@ -135,6 +146,14 @@ public class Program
         arrayLevel[3] = new string[2] { "Wave of Light ⚜️", "Storm of Wings 🐦" };
         arrayLevel[4] = new string[4] { "Cataclysm 🌋", "Portal of Chaos 🌀", "Arcane Blood Pact 🩸", "Elemental Storm ⛈️" };
 
+        //Chapter 7:
+        string[] arrayScrolls = { "When the moon is full, the arcana will be the means of which all will be revealed.", "The magic in the inside is the strenght to conquer the fear of of death.", "Spells: Diarahan ✨ 4, Panta rei 🌪️ 6, Myriad truths ☄️ 9, Matarukaja 💪 3." };
+        char[] vowels = { 'a', 'e', 'i', 'o', 'u' };
+        char[] numbers = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' };
+        int vowelsCounter = 0;
+        bool[] arrayDecoded = { false, false, false };
+        bool scrollInput = true;
+
         Random rnd = new Random();
 
         do
@@ -143,7 +162,7 @@ public class Program
             Console.WriteLine(MenuTitle);
             if (setWizard)
             {
-                Console.WriteLine(PlayerTitle, wizardName, title);
+                Console.WriteLine(PlayerTitle, wizardName, title, level);
             }
             Console.WriteLine(MenuOption1);
             Console.WriteLine(MenuOption2);
@@ -154,6 +173,7 @@ public class Program
             Console.WriteLine(MenuOption7);
             Console.WriteLine(MenuOptionExit);
             Console.Write(MenuPrompt);
+            Console.WriteLine();
 
             try
             {
@@ -181,6 +201,7 @@ public class Program
                             Console.Write(MsgInputName);
                             wizardName = Console.ReadLine();
                             wizardName = char.ToUpper(wizardName[0]) + wizardName.Substring(1);
+                            Console.WriteLine();
                             if (badName = wizardName.Contains(space))
                             {
                                 Console.WriteLine(InputNameError);
@@ -189,6 +210,7 @@ public class Program
                         } while (badName);
 
                         Console.WriteLine(MsgNameConfirm + wizardName);
+                        Console.WriteLine();
 
                         for (day = 1; day < 6; day++)
                         {
@@ -205,30 +227,31 @@ public class Program
                         {
                             case >= 40:
                                 Console.WriteLine(LevelMaster);
-                                Console.WriteLine(TitleMaster);
+                                Console.WriteLine(Title + TitleMaster);
                                 title = TitleMaster;
                                 break;
                             case >= 35:
                                 Console.WriteLine(LevelAdvanced);
-                                Console.WriteLine(TitleAdvanced);
+                                Console.WriteLine(Title + TitleAdvanced);
                                 title = TitleAdvanced;
                                 break;
                             case >= 30:
                                 Console.WriteLine(LevelNovice);
-                                Console.WriteLine(TitleNovice);
+                                Console.WriteLine(Title + TitleNovice);
                                 title = TitleNovice;
                                 break;
                             case >= 20:
                                 Console.WriteLine(LevelNoob);
-                                Console.WriteLine(TitleNoob);
+                                Console.WriteLine(Title + TitleNoob);
                                 title = TitleNoob;
                                 break;
                             case < 20:
                                 Console.WriteLine(LevelDisaster);
-                                Console.WriteLine(TitleDisaster);
+                                Console.WriteLine(Title + TitleDisaster);
                                 title = TitleDisaster;
                                 break;
                         }
+                        Console.WriteLine();
                         setWizard = true;
                         break;
                     case 2:
@@ -253,9 +276,11 @@ public class Program
 
                                 level = level + 1;
                                 Console.WriteLine(MonsterDefeat, level);
+                                Console.ReadLine();
                                 break;
                             case >= 5:
                                 Console.WriteLine(MaxLevel);
+                                Console.ReadLine();
                                 break;
                         }
                         break;
@@ -269,6 +294,7 @@ public class Program
                         }
 
                         Console.WriteLine(MineMap);
+                        Console.WriteLine();
                         Console.WriteLine(XCoordinates);
                         for (int i = 0; i < matrixMap.GetLength(0); i++)
                         {
@@ -280,15 +306,18 @@ public class Program
                             }
                             Console.WriteLine();
                         }
+                        Console.WriteLine();
 
                         for (attempts = 5; attempts > 0; attempts--)
                         {
                             validInput = false;
                             Console.WriteLine(AttemptsLeft, attempts);
+                            Console.WriteLine();
                             Console.WriteLine(InputRow);
                             do
                             {
                                 validInput = Int32.TryParse(Console.ReadLine(), out row);
+                                Console.WriteLine();
                                 if (row >= 0 && row <= 4 && validInput)
                                 {
                                     validInput = false;
@@ -296,7 +325,7 @@ public class Program
                                     do
                                     {
                                         validInput = Int32.TryParse(Console.ReadLine(), out column);
-
+                                        Console.WriteLine();
                                         if (column >= 0 && column <= 4 && validInput)
                                         {
                                             if (matrixMap[row, column] != Treasure && matrixMap[row, column] != Nothing)
@@ -317,12 +346,14 @@ public class Program
                                             else
                                             {
                                                 Console.WriteLine(AlreadyDigged);
+                                                Console.WriteLine();
                                                 attempts++;
                                             }
                                         }
                                         else
                                         {
                                             Console.WriteLine(InputError);
+                                            Console.WriteLine();
                                             validInput = false;
                                         }
                                     } while (column < 0 || column >= 5 || !validInput);
@@ -330,11 +361,14 @@ public class Program
                                 else
                                 {
                                     Console.WriteLine(InputError);
+                                    Console.WriteLine();
                                     validInput = false;
                                 }
                             } while (row < 0 || row >= 5 || !validInput);
-                            
+
+                            Console.WriteLine();
                             Console.WriteLine(MineMap);
+                            Console.WriteLine();
                             Console.WriteLine(XCoordinates);
                             for (int i = 0; i < matrixMap.GetLength(0); i++)
                             {
@@ -346,9 +380,12 @@ public class Program
                                 Console.WriteLine();
                             }
                         }
+                        Console.WriteLine();
                         Console.WriteLine(TotalBitsFound, totalBits);
+                        Console.WriteLine();
                         break;
                     case 4:
+                        Console.WriteLine();
                         if (inventorySlots[0] != null)
                         {
                             for (int i = 0; i < inventorySlots.Length; i++)
@@ -360,10 +397,13 @@ public class Program
                         {
                             Console.WriteLine(InventoryEmpty);
                         }
+                        Console.WriteLine();
                         break;
                     case 5:
                         validInput = false;
+                        Console.WriteLine();
                         Console.WriteLine(EnterShop);
+                        Console.WriteLine();
                         do
                         {
                             Console.WriteLine(ShopNames);
@@ -373,9 +413,11 @@ public class Program
                             }
                             Console.WriteLine(SelectItem);
                             Console.WriteLine(YourBits, totalBits);
+                            Console.WriteLine();
                             try
                             {
                                 validInput = Int32.TryParse(Console.ReadLine(), out shopSelect);
+                                Console.WriteLine();
                                 if (shopSelect >= MinItem && shopSelect < MaxItem && validInput)
                                 {
                                     if (totalBits < arrayPrice[shopSelect - 1])
@@ -400,16 +442,21 @@ public class Program
                             catch (FormatException)
                             {
                                 Console.WriteLine(InputErrorItem);
+                                Console.WriteLine();
                             }
                             catch (Exception)
                             {
                                 Console.WriteLine(InputErrorItem);
+                                Console.WriteLine();
                             }
                         } while (shopSelect != 0);
                         Console.WriteLine(LeaveShop);
+                        Console.WriteLine();
                         break;
                     case 6:
+                        Console.WriteLine();
                         Console.WriteLine(ShowAttacks, level);
+                        Console.WriteLine();
                         for (int i = 0; i < arrayLevel[level - 1].Length; i++)
                         {
                             Console.WriteLine($"{arrayLevel[level - 1][i]}");
@@ -417,11 +464,64 @@ public class Program
                         switch (level)
                         {
                             case < 5:
+                                Console.WriteLine();
                                 Console.WriteLine(GetStronger);
                                 break;
                             case >= 5:
+                                Console.WriteLine();
                                 Console.WriteLine(MaxLevelSkills);
                                 break;
+                        }
+                        Console.WriteLine();
+                        break;
+                    case 7:
+                        Console.WriteLine(FoundScrolls);
+                        Console.WriteLine();
+                        for (int i = 0; i < arrayScrolls.Length; i++)
+                        {
+                            Console.WriteLine($"{i + 1}. {arrayScrolls[i]}");
+                        }
+                        do
+                        {
+                            Console.WriteLine();
+                            Console.WriteLine(SelectScroll);
+                            Console.WriteLine();
+                            Console.WriteLine(DecodeMethods);
+                            Console.WriteLine();
+                            try
+                            {
+                                int scroll = Int32.Parse(Console.ReadLine());
+
+                                switch (scroll)
+                                {
+                                    case 1:
+                                        Console.WriteLine(DecodedSpell, arrayScrolls[0].Replace(" ", ""));
+                                        Console.WriteLine();
+                                        arrayDecoded[0] = true;
+                                        break;
+                                    case 2:
+                                        
+                                        break;
+                                    case 3:
+                                        
+                                        break;
+                                }
+                            }
+                            catch (FormatException)
+                            {
+                                Console.WriteLine(InputErrorScrolls);
+                                scrollInput = false;
+                            }
+                            catch (Exception)
+                            {
+                                Console.WriteLine(InputErrorScrolls);
+                                scrollInput = false;
+                            }
+                        } while (scrollInput != true);
+                        if (arrayDecoded[0] == true && arrayDecoded[1] == true && arrayDecoded[2] == true)
+                        {
+                            Console.WriteLine(AllScrollsDecoded);
+                            Console.WriteLine();
                         }
                         break;
                 }
