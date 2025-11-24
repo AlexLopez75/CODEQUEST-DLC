@@ -1,6 +1,6 @@
 # Chapter 2: Increasing your Level
 
-Normal:
+Normal: level = 1
 
 | Instruction | Iteration | level  | monsterIndex  | monsterName       | health  | damage  | Output  |
 |-------------|-----------|--------|---------------|-------------------|---------|---------|---------|
@@ -23,3 +23,12 @@ Normal:
 | 2           | 16        | 1      | 2             | Green Slime 🟢    | -2      | -       | WRITE = "Press enter to continue" |
 | 3           | 1         | 2      | 2             | Green Slime 🟢    | -2      | -       | level++ |
 | 3           | 2         | 2      | 2             | Green Slime 🟢    | -2      | -       | WRITE = "You have defeated the monster, your level increases to level 2." |
+
+Limit: level = 5
+
+| Instruction | Iteration | level | monsterIndex | monsterName | health | damage | Output |
+|-------------|-----------|--------|---------------|--------------|---------|---------|---------|
+| 1           | -         | 5      | -             | -            | -       | -       | Player selects option 2 (Increase LVL) |
+| 2           | 1         | 5      | -             | -            | -       | -       | Condition level >= 5 is TRUE |
+| 2           | 2         | 5      | -             | -            | -       | -       | WRITE = "You have achieved max level." |
+| 2           | 3         | 5      | -             | -            | -       | -       | Program waits for ENTER |
