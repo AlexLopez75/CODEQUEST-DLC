@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data.Common;
 using System.Diagnostics.Metrics;
+using System.Drawing;
 public class Program
 {
     public static void Main()
@@ -8,7 +9,7 @@ public class Program
         Console.OutputEncoding = System.Text.Encoding.Unicode;
 
         //Menu:
-        const string MenuTitle = "===== MAIN MENU - CODEQUEST =====";
+        const string MenuTitle = "===== MAIN MENU - CODEQUEST ====="; 
         const string PlayerTitle = "===== Welcome, {0} the {1} with level {2} =====\n";
         const string MenuOption1 = "1. Train your wizard";
         const string MenuOption2 = "2. Increase LVL";
@@ -23,7 +24,7 @@ public class Program
 
         //Chapter 1:
         const string MsgInputName = "Enter your wizard's name: ";
-        const string MsgNameConfirm = "Your wizard's name is: ";
+        const string MsgNameConfirm = "Your wizard's name is: {0}";
         const string InputNameError = "Input a name without spaces.";
         const string PressEnter = "Press enter to continue";
         const string Title = "Title: ";
@@ -158,6 +159,7 @@ public class Program
 
         do
         {
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
             validInput = true;
             Console.WriteLine(MenuTitle);
             if (setWizard)
@@ -173,6 +175,7 @@ public class Program
             Console.WriteLine(MenuOption7);
             Console.WriteLine(MenuOptionExit);
             Console.Write(MenuPrompt);
+            Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine();
 
             try
@@ -199,9 +202,11 @@ public class Program
                         {
                             badName = false;
                             Console.Write(MsgInputName);
+                            Console.ForegroundColor = ConsoleColor.Blue;
                             wizardName = Console.ReadLine();
                             wizardName = char.ToUpper(wizardName[0]) + wizardName.Substring(1);
                             Console.WriteLine();
+                            Console.ForegroundColor = ConsoleColor.White;
                             if (badName = wizardName.Contains(space))
                             {
                                 Console.WriteLine(InputNameError);
@@ -209,7 +214,7 @@ public class Program
                             }
                         } while (badName);
 
-                        Console.WriteLine(MsgNameConfirm + wizardName);
+                        Console.WriteLine(MsgNameConfirm, wizardName);
                         Console.WriteLine();
 
                         for (day = 1; day < 6; day++)
@@ -227,27 +232,37 @@ public class Program
                         {
                             case >= 40:
                                 Console.WriteLine(LevelMaster);
+                                Console.ForegroundColor = ConsoleColor.DarkYellow;
                                 Console.WriteLine(Title + TitleMaster);
+                                Console.ForegroundColor = ConsoleColor.White;
                                 title = TitleMaster;
                                 break;
                             case >= 35:
                                 Console.WriteLine(LevelAdvanced);
+                                Console.ForegroundColor = ConsoleColor.Green;
                                 Console.WriteLine(Title + TitleAdvanced);
+                                Console.ForegroundColor = ConsoleColor.White;
                                 title = TitleAdvanced;
                                 break;
                             case >= 30:
                                 Console.WriteLine(LevelNovice);
+                                Console.ForegroundColor = ConsoleColor.Blue;
                                 Console.WriteLine(Title + TitleNovice);
+                                Console.ForegroundColor = ConsoleColor.White;
                                 title = TitleNovice;
                                 break;
                             case >= 20:
                                 Console.WriteLine(LevelNoob);
+                                Console.ForegroundColor = ConsoleColor.Red;
                                 Console.WriteLine(Title + TitleNoob);
+                                Console.ForegroundColor = ConsoleColor.White;
                                 title = TitleNoob;
                                 break;
                             case < 20:
                                 Console.WriteLine(LevelDisaster);
+                                Console.ForegroundColor = ConsoleColor.Gray;
                                 Console.WriteLine(Title + TitleDisaster);
+                                Console.ForegroundColor = ConsoleColor.White;
                                 title = TitleDisaster;
                                 break;
                         }
@@ -264,6 +279,7 @@ public class Program
 
                                 do
                                 {
+                                    Console.ForegroundColor = ConsoleColor.Green;
                                     Console.WriteLine(MonsterHp, arrayMonsters[monster], health);
                                     int damage = rnd.Next(MinDamage, MaxDamage);
                                     Console.WriteLine(arrayDice[damage - 1]);
@@ -275,12 +291,16 @@ public class Program
                                 } while (health > 0);
 
                                 level = level + 1;
+                                Console.ForegroundColor = ConsoleColor.Blue;
                                 Console.WriteLine(MonsterDefeat, level);
                                 Console.ReadLine();
+                                Console.ForegroundColor = ConsoleColor.White;
                                 break;
                             case >= 5:
+                                Console.ForegroundColor = ConsoleColor.Yellow;
                                 Console.WriteLine(MaxLevel);
                                 Console.ReadLine();
+                                Console.ForegroundColor = ConsoleColor.White;
                                 break;
                         }
                         break;
@@ -292,7 +312,7 @@ public class Program
                                 matrixTreasure[i, j] = rnd.Next(MinChance, MaxChance) > 2 ? $"{Treasure}" : $"{Nothing}";
                             }
                         }
-
+                        Console.ForegroundColor = ConsoleColor.Gray;
                         Console.WriteLine(MineMap);
                         Console.WriteLine();
                         Console.WriteLine(XCoordinates);
@@ -311,11 +331,13 @@ public class Program
                         for (attempts = 5; attempts > 0; attempts--)
                         {
                             validInput = false;
+                            Console.ForegroundColor = ConsoleColor.White;
                             Console.WriteLine(AttemptsLeft, attempts);
                             Console.WriteLine();
                             Console.WriteLine(InputRow);
                             do
                             {
+                                Console.ForegroundColor = ConsoleColor.White;
                                 validInput = Int32.TryParse(Console.ReadLine(), out row);
                                 Console.WriteLine();
                                 if (row >= 0 && row <= 4 && validInput)
@@ -324,6 +346,7 @@ public class Program
                                     Console.WriteLine(InputColumn);
                                     do
                                     {
+                                        Console.ForegroundColor = ConsoleColor.White;
                                         validInput = Int32.TryParse(Console.ReadLine(), out column);
                                         Console.WriteLine();
                                         if (column >= 0 && column <= 4 && validInput)
@@ -341,10 +364,12 @@ public class Program
                                                 {
                                                     matrixMap[row, column] = Nothing;
                                                 }
+                                                Console.ForegroundColor = ConsoleColor.Yellow;
                                                 Console.WriteLine(matrixMap[row, column] == Treasure ? $"{MsgFound}{bits}" : $"{MsgEmpty}");
                                             }
                                             else
                                             {
+                                                Console.ForegroundColor = ConsoleColor.Red;
                                                 Console.WriteLine(AlreadyDigged);
                                                 Console.WriteLine();
                                                 attempts++;
@@ -352,6 +377,7 @@ public class Program
                                         }
                                         else
                                         {
+                                            Console.ForegroundColor = ConsoleColor.Red;
                                             Console.WriteLine(InputError);
                                             Console.WriteLine();
                                             validInput = false;
@@ -360,12 +386,14 @@ public class Program
                                 }
                                 else
                                 {
+                                    Console.ForegroundColor = ConsoleColor.Red;
                                     Console.WriteLine(InputError);
                                     Console.WriteLine();
                                     validInput = false;
                                 }
                             } while (row < 0 || row >= 5 || !validInput);
 
+                            Console.ForegroundColor = ConsoleColor.Gray;
                             Console.WriteLine();
                             Console.WriteLine(MineMap);
                             Console.WriteLine();
@@ -380,6 +408,7 @@ public class Program
                                 Console.WriteLine();
                             }
                         }
+                        Console.ForegroundColor = ConsoleColor.Green;
                         Console.WriteLine();
                         Console.WriteLine(TotalBitsFound, totalBits);
                         Console.WriteLine();
@@ -388,6 +417,7 @@ public class Program
                         Console.WriteLine();
                         if (inventorySlots[0] != null)
                         {
+                            Console.ForegroundColor = ConsoleColor.Green;
                             for (int i = 0; i < inventorySlots.Length; i++)
                             {
                                 Console.WriteLine($"{inventorySlots[i]}");
@@ -395,17 +425,20 @@ public class Program
                         }
                         else
                         {
+                            Console.ForegroundColor = ConsoleColor.Red;
                             Console.WriteLine(InventoryEmpty);
                         }
                         Console.WriteLine();
                         break;
                     case 5:
                         validInput = false;
+                        Console.ForegroundColor = ConsoleColor.DarkBlue;
                         Console.WriteLine();
                         Console.WriteLine(EnterShop);
                         Console.WriteLine();
                         do
                         {
+                            Console.ForegroundColor = ConsoleColor.White;
                             Console.WriteLine(ShopNames);
                             for (int i = 0; i < arrayItems.Length; i++)
                             {
@@ -422,13 +455,16 @@ public class Program
                                 {
                                     if (totalBits < arrayPrice[shopSelect - 1])
                                     {
+                                        Console.ForegroundColor = ConsoleColor.Red;
                                         Console.WriteLine(NotEnoughBits);
                                     }
                                     else
                                     {
                                         inventorySlots[inventorySlots.Length - 1] = arrayItems[shopSelect - 1];
                                         totalBits -= arrayPrice[shopSelect - 1];
+                                        Console.ForegroundColor = ConsoleColor.DarkBlue;
                                         Console.WriteLine(SuficientBits);
+                                        Console.ForegroundColor = ConsoleColor.Green;
                                         Console.WriteLine(BuyMessage, arrayItems[shopSelect - 1]);
                                         string[] auxArray = new string[inventorySlots.Length + 1];
                                         for (int i = 0; i < inventorySlots.Length; i++)
@@ -441,19 +477,23 @@ public class Program
                             }
                             catch (FormatException)
                             {
+                                Console.ForegroundColor = ConsoleColor.Red;
                                 Console.WriteLine(InputErrorItem);
                                 Console.WriteLine();
                             }
                             catch (Exception)
                             {
+                                Console.ForegroundColor = ConsoleColor.Red;
                                 Console.WriteLine(InputErrorItem);
                                 Console.WriteLine();
                             }
                         } while (shopSelect != 0);
+                        Console.ForegroundColor = ConsoleColor.DarkBlue;
                         Console.WriteLine(LeaveShop);
                         Console.WriteLine();
                         break;
                     case 6:
+                        Console.ForegroundColor = ConsoleColor.Green;
                         Console.WriteLine();
                         Console.WriteLine(ShowAttacks, level);
                         Console.WriteLine();
@@ -464,10 +504,12 @@ public class Program
                         switch (level)
                         {
                             case < 5:
+                                Console.ForegroundColor = ConsoleColor.DarkBlue;
                                 Console.WriteLine();
                                 Console.WriteLine(GetStronger);
                                 break;
                             case >= 5:
+                                Console.ForegroundColor = ConsoleColor.DarkYellow;
                                 Console.WriteLine();
                                 Console.WriteLine(MaxLevelSkills);
                                 break;
@@ -475,6 +517,7 @@ public class Program
                         Console.WriteLine();
                         break;
                     case 7:
+                        Console.ForegroundColor = ConsoleColor.Blue;
                         Console.WriteLine(FoundScrolls);
                         Console.WriteLine();
                         for (int i = 0; i < arrayScrolls.Length; i++)
@@ -483,6 +526,7 @@ public class Program
                         }
                         do
                         {
+                            Console.ForegroundColor = ConsoleColor.White;
                             Console.WriteLine();
                             Console.WriteLine(SelectScroll);
                             Console.WriteLine();
@@ -495,31 +539,63 @@ public class Program
                                 switch (scroll)
                                 {
                                     case 1:
+                                        Console.ForegroundColor = ConsoleColor.DarkGreen;
                                         Console.WriteLine(DecodedSpell, arrayScrolls[0].Replace(" ", ""));
                                         Console.WriteLine();
                                         arrayDecoded[0] = true;
                                         break;
                                     case 2:
-                                        
+                                        char[] scroll2 = arrayScrolls[1].ToCharArray();
+                                        foreach (char letter in scroll2)
+                                        {
+                                            foreach (char vowel in vowels)
+                                            {
+                                                if (letter.Equals(vowel))
+                                                {
+                                                    vowelsCounter++;
+                                                }
+                                            }
+                                        }
+                                        Console.ForegroundColor = ConsoleColor.DarkGreen;
+                                        Console.WriteLine(MagicalRunes, vowelsCounter);
+                                        Console.WriteLine();
+                                        arrayDecoded[1] = true;
                                         break;
                                     case 3:
-                                        
+                                        Console.ForegroundColor = ConsoleColor.DarkGreen;
+                                        Console.Write(SecretCode);
+                                        char[] scroll3 = arrayScrolls[2].ToCharArray();
+                                        foreach (char letter in scroll3)
+                                        {
+                                            foreach (char number in numbers)
+                                            {
+                                                if (letter.Equals(number))
+                                                {
+                                                    Console.Write(number);
+                                                }
+                                            }
+                                        }
+                                        Console.WriteLine();
+                                        arrayDecoded[2] = true;
                                         break;
                                 }
                             }
                             catch (FormatException)
                             {
+                                Console.ForegroundColor = ConsoleColor.Red;
                                 Console.WriteLine(InputErrorScrolls);
                                 scrollInput = false;
                             }
                             catch (Exception)
                             {
+                                Console.ForegroundColor = ConsoleColor.Red;
                                 Console.WriteLine(InputErrorScrolls);
                                 scrollInput = false;
                             }
                         } while (scrollInput != true);
                         if (arrayDecoded[0] == true && arrayDecoded[1] == true && arrayDecoded[2] == true)
                         {
+                            Console.ForegroundColor = ConsoleColor.Magenta;
                             Console.WriteLine(AllScrollsDecoded);
                             Console.WriteLine();
                         }
