@@ -58,7 +58,7 @@ Sol·licita el nom del mag i el capitalitza correctament (primera lletra majúsc
 | Ancient Dragon 🐉 | 50 |
 
 S'ha d'utilitzar art ASCII per deibuixar els daus:
-
+```
    ________
   /       /|   
  /_______/ |
@@ -66,6 +66,7 @@ S'ha d'utilitzar art ASCII per deibuixar els daus:
  |   o   | /
  |       |/ 
  '-------'
+```
 
 ### Chapter 3: Loot the mine
 
