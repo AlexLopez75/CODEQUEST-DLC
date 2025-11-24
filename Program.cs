@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Data.Common;
-using System.Diagnostics.Metrics;
 public class Program
 {
     public static void Main()
